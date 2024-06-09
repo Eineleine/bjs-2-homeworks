@@ -5,13 +5,12 @@ class AlarmClock {
 	}
 
 	addClock(time, callback) {
-		if (time === undefined || callback === undefined || time === null || callback === null) {
+		if (!time || callback === undefined) {
 			throw new Error('Отсутствуют обязательные аргументы');
 		}
 
-		if (this.alarmCollection.time === time && this.alarmCollection.callback === callback) {
+		if (this.alarmCollection.some(alarm => alarm.time === time)) {
 			console.warn('Уже присутствует звонок на это же время');
-			return;
 		}
 
 		this.alarmCollection.push({
@@ -54,9 +53,6 @@ class AlarmClock {
 	}
 
 	stop() {
-		if (this.intervalId === null) {
-			return;
-		}
 		clearInterval(this.intervalId);
 		this.intervalId = null;
 	}
